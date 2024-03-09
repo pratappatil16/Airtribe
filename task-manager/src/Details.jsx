@@ -10,6 +10,7 @@ export default function Details() {
     desc: "",
     type: ""
   });
+  const [statusTypes, setStatusTypes] = useState([]);
 
   useEffect(() => {
     const savedLists = JSON.parse(localStorage.getItem("lists"));
@@ -20,6 +21,10 @@ export default function Details() {
         return;
       }
       setDetail(newDetail);
+      
+      // Retrieve status types from local storage and update state
+      const savedStatusTypes = Object.keys(savedLists);
+      setStatusTypes(savedStatusTypes);
     }
   }, [id, type, navigate]);
 
@@ -54,13 +59,14 @@ export default function Details() {
               onChange={(e) => handleChange("type", e.target.value)}
               className="border px-2 py-1 rounded"
             >
-              <option value="notStarted">Not Started</option>
-              <option value="started">Started</option>
-              <option value="completed">Completed</option>
+              {statusTypes.map((statusType) => (
+                <option key={statusType} value={statusType}>
+                  {statusType.charAt(0).toUpperCase() + statusType.slice(1)}
+                </option>
+              ))}
             </select>
-            
           </div>
-          <label htmlFor="title" class="font-semibold text-xl">Title</label>
+          <label htmlFor="title" className="font-semibold text-xl">Title</label>
           <input
             type="text"
             id="title"
@@ -77,13 +83,11 @@ export default function Details() {
             className="border px-2 py-1 rounded"
           />
         </div>
-
-        </div>
-
-        <div className="w-full flex py-12 justify-center items-center">
+      </div>
+      <div className="w-full flex py-12 justify-center items-center">
         <button onClick={handleSave} className="border px-4 py-1 rounded bg-blue-500 text-white hover:bg-blue-700">Save</button>
         <button onClick={handleDelete} className="border px-4 py-1 rounded bg-red-500 text-white hover:bg-red-700">Delete</button>
-        </div>
+      </div>
     </div>
   );
 }
