@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 export default function Details() {
@@ -22,7 +22,6 @@ export default function Details() {
       }
       setDetail(newDetail);
       
-      // Retrieve status types from local storage and update state
       const savedStatusTypes = Object.keys(savedLists);
       setStatusTypes(savedStatusTypes);
     }
@@ -48,16 +47,16 @@ export default function Details() {
   };
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-4">Details Page</h1>
-      <div className="w-screen flex justify-center items-center">
-        <div className="w-[70vw] flex flex-col">
+    <div className="px-4">
+      <h1 className="text-2xl font-bold mb-4 text-center pt-2 text-blue-800">Details Page</h1>
+      <div className="w-full flex justify-center items-center">
+        <div className="w-full md:w-[70vw] flex flex-col">
           <div className="w-full flex items-center justify-between mb-4">
             <select
               name="type"
               value={detail.type}
               onChange={(e) => handleChange("type", e.target.value)}
-              className="border px-2 py-1 rounded"
+              className="border ring ring-gray-300 ring-offset-2 px-2 py-1 rounded"
             >
               {statusTypes.map((statusType) => (
                 <option key={statusType} value={statusType}>
@@ -66,27 +65,28 @@ export default function Details() {
               ))}
             </select>
           </div>
-          <label htmlFor="title" className="font-semibold text-xl">Title</label>
+          <label htmlFor="title" className="font-semibold pb-2">Title</label>
           <input
             type="text"
             id="title"
             value={detail.title}
             onChange={(e) => handleChange("title", e.target.value)}
-            className="border px-2 py-1 rounded mb-4"
+            className="border ring ring-gray-300 ring-offset-2 px-2 py-1 rounded mb-4"
           />
-          <label htmlFor="description" className="font-semibold">Description</label>
+          <label htmlFor="description" className=" font-semibold pb-2">Description</label>
           <textarea
             id="description"
             rows={5}
             value={detail.desc}
             onChange={(e) => handleChange("desc", e.target.value)}
-            className="border px-2 py-1 rounded"
+            className="border ring ring-gray-300 ring-offset-2 px-2 py-1 rounded"
           />
         </div>
       </div>
-      <div className="w-full flex py-12 justify-center items-center">
-        <button onClick={handleSave} className="border px-4 py-1 rounded bg-blue-500 text-white hover:bg-blue-700">Save</button>
-        <button onClick={handleDelete} className="border px-4 py-1 rounded bg-red-500 text-white hover:bg-red-700">Delete</button>
+      <div className="w-full flex flex-col md:flex-row py-12 justify-center items-center space-y-5 md:space-y-0 md:space-x-5">
+        <button onClick={()=>{navigate("/")}} className="border px-4 py-1 rounded bg-green-500 text-white ring ring-green-600 ring-offset-2">Home</button>
+        <button onClick={handleSave} className="border px-4 py-1 rounded bg-blue-500 text-white ring ring-blue-600 ring-offset-2">Save</button>
+        <button onClick={handleDelete} className="border px-4 py-1 rounded bg-red-500 text-white ring ring-red-600 ring-offset-2">Delete</button>
       </div>
     </div>
   );

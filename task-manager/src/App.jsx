@@ -13,6 +13,8 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/:id/:type" element={<Details />} />
           <Route path="/notFound" element={<Error404 />} />
+          <Route path="*" element={<Error404 />} />
+
         </Routes>
       </Suspense>
     </BrowserRouter>
