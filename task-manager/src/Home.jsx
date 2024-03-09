@@ -36,19 +36,32 @@ export default function Home() {
     }
   }, []);
 
-  useEffect(() => {
+//   useEffect(() => {
+//     if (draggedItem) {
+//       const { id, type } = draggedItem;
+//       const updatedList = lists[type].filter((item) => item.id !== id);
+//       setLists((prevLists) => ({
+//         ...prevLists,
+//         [draggedItem.type]: updatedList,
+//         [type]: [...prevLists[type], draggedItem]
+//       }));
+//       setDraggedItem(null);
+//       localStorage.setItem("lists", JSON.stringify({ ...lists, [type]: updatedList, [draggedItem.type]: [...lists[draggedItem.type], draggedItem] }));
+//     }
+//   }, [draggedItem, lists]);
+const handleDrop = (type) => {
     if (draggedItem) {
-      const { id, type } = draggedItem;
-      const updatedList = lists[type].filter((item) => item.id !== id);
-      setLists((prevLists) => ({
+      const updatedList = lists[draggedItem.type].filter((item) => item.id !== draggedItem.id);
+      setLists(prevLists => ({
         ...prevLists,
         [draggedItem.type]: updatedList,
-        [type]: [...prevLists[type], draggedItem]
+        [type]: [...prevLists[type], { title: draggedItem.title, id: draggedItem.id, desc: draggedItem.desc, type }]
       }));
       setDraggedItem(null);
-      localStorage.setItem("lists", JSON.stringify({ ...lists, [type]: updatedList, [draggedItem.type]: [...lists[draggedItem.type], draggedItem] }));
+  
+      localStorage.setItem("lists", JSON.stringify({ ...lists, [draggedItem.type]: updatedList, [type]: [...lists[type], draggedItem] }));
     }
-  }, [draggedItem, lists]);
+  };
 
   const handleDragStart = (e, id, type, title, desc) => {
     setDraggedItem({ id, type, title, desc });
@@ -97,7 +110,7 @@ export default function Home() {
     <div className="flex w-screen h-screen bg-gray-200">
       {Object.entries(lists).map(([type, list]) => (
         <div key={type} className="w-1/3 h-screen border p-4">
-          <h1 className="text-xl font-semibold mb-4 capitalize">{type}</h1>
+          <h1 className="text-xl font-semibold mb-4 capitalize "><span className=" bg-cyan-500 mr-4 p-1">{type}</span> {list?.length}</h1>
           <ul
             className="w-full flex flex-col min-h-[50px] bg-white rounded shadow-md"
             onDragOver={handleDragOver}
@@ -113,13 +126,25 @@ export default function Home() {
               >
                 {ele.title}
                 <button
-                  className="absolute right-2 top-1 bg-red-500 text-white rounded-full w-6 h-6 flex justify-center items-center"
+                  className="absolute right-2 top-3 text-red-700 "
                   onClick={(e) => {
                     e.stopPropagation();
                     deleteItem(ele.id, ele.type);
                   }}
                 >
-                  X
+
+
+
+                 
+                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash" viewBox="0 0 16 16">
+                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                    <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                </svg>
+             
+             
+
+
+
                 </button>
               </li>
             ))}

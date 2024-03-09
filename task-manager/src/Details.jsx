@@ -36,7 +36,7 @@ export default function Details() {
 
   const handleSave = () => {
     const savedLists = JSON.parse(localStorage.getItem("lists"));
-    savedLists[detail.type] = savedLists[detail.type].filter((item) => item.id !== parseInt(id));
+    savedLists[type] = savedLists[type].filter((item) => item.id !== parseInt(id));
     savedLists[detail.type].push(detail);
     localStorage.setItem("lists", JSON.stringify(savedLists));
     navigate("/");
@@ -58,10 +58,9 @@ export default function Details() {
               <option value="started">Started</option>
               <option value="completed">Completed</option>
             </select>
-            <button onClick={handleDelete} className="border px-4 py-1 rounded bg-red-500 text-white">Delete</button>
-            <button onClick={handleSave} className="border px-4 py-1 rounded bg-blue-500 text-white">Save</button>
+            
           </div>
-          <label htmlFor="title" className="font-semibold">Title</label>
+          <label htmlFor="title" class="font-semibold text-xl">Title</label>
           <input
             type="text"
             id="title"
@@ -78,7 +77,13 @@ export default function Details() {
             className="border px-2 py-1 rounded"
           />
         </div>
-      </div>
+
+        </div>
+
+        <div className="w-full flex py-12 justify-center items-center">
+        <button onClick={handleSave} className="border px-4 py-1 rounded bg-blue-500 text-white hover:bg-blue-700">Save</button>
+        <button onClick={handleDelete} className="border px-4 py-1 rounded bg-red-500 text-white hover:bg-red-700">Delete</button>
+        </div>
     </div>
   );
 }
